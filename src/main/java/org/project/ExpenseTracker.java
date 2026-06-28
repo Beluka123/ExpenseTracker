@@ -49,7 +49,22 @@ public class ExpenseTracker {
     }
 
     public static void delete(String[] args){
+        if(args.length < 4){
+            Help.help("delete");
+            return;
+        }
 
+        if(Arrays.stream(args).noneMatch(a -> a.equals("--id"))){
+            Help.help("delete");
+            return;
+        }
+
+        if(!args[3].matches("\\d+")){
+            Help.help("delete");
+            return;
+        }
+
+        storage.delete(Integer.parseInt(args[3]));
     }
 
     public static void summary(String[] args){

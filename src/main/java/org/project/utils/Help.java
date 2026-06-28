@@ -6,6 +6,7 @@ public class Help {
         switch (type){
             case "start" -> System.err.println("expense-tracker <-h or -help>");
             case "add" -> System.err.println("usage: expense-tracker add --description <value> --amount <value>");
+            case "delete" -> System.err.println("usage: expense-tracker delete --id <id>");
         }
     }
 

@@ -37,10 +37,22 @@ public class ExpenseStorage {
         expenses.add(new Expense(lastId + 1, desc, amount, LocalDate.now()));
 
         mapper.writerWithDefaultPrettyPrinter().writeValue(storage, expenses);
-
+        System.out.println("successfully added");
     }
 
     public List<Expense> get(){
         return mapper.readValue(storage, new TypeReference<>() {});
+    }
+
+    public void delete(int id){
+        List<Expense> expenses = mapper.readValue(storage, new TypeReference<>() {});
+
+        if(expenses.isEmpty() || !expenses.removeIf(e -> e.getId() == id)) {
+            System.out.println("Nothing to delete");
+            return;
+        }
+
+        mapper.writerWithDefaultPrettyPrinter().writeValue(storage, expenses);
+        System.out.println("successfully deleted");
     }
 }
