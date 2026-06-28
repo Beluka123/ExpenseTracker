@@ -14,7 +14,7 @@ public class Main {
 
         switch (args[1]) {
             case "add" -> ExpenseTracker.add(args);
-            case "list" -> ExpenseTracker.list(args);
+            case "list" -> ExpenseTracker.list();
             case "delete" -> ExpenseTracker.delete(args);
             case "summary" -> ExpenseTracker.summary(args);
         }

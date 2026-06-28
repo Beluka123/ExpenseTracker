@@ -40,4 +40,7 @@ public class ExpenseStorage {
 
     }
 
+    public List<Expense> get(){
+        return mapper.readValue(storage, new TypeReference<>() {});
+    }
 }

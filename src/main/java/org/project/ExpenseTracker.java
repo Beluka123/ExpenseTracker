@@ -1,9 +1,11 @@
 package org.project;
 
+import org.project.models.Expense;
 import org.project.utils.Help;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 public class ExpenseTracker {
 
@@ -33,8 +35,17 @@ public class ExpenseTracker {
 
     }
 
-    public static void list(String[] args){
+    public static void list(){
+        List<Expense> expenses = storage.get();
 
+        System.out.printf("%-3s %-15s %-15s %s\n", "ID", "DATE", "DESCRIPTION", "AMOUNT");
+        for(Expense expense : expenses){
+            System.out.printf("%-3d %-15s %-15s %d\n",
+                    expense.getId(),
+                    expense.getDate(),
+                    expense.getDest(),
+                    expense.getAmount());
+        }
     }
 
     public static void delete(String[] args){
