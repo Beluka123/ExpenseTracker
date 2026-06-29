@@ -13,10 +13,10 @@ import java.util.Optional;
 
 public class ExpenseStorage {
 
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final File storage = new File("storage.json");
+    private final static ObjectMapper mapper = new ObjectMapper();
+    private final static File storage = new File("storage.json");
 
-    {
+    static {
         try {
             if(!Files.exists(storage.toPath())){
                 Files.createFile(storage.toPath());
@@ -49,7 +49,7 @@ public class ExpenseStorage {
         List<Expense> expenses = mapper.readValue(storage, new TypeReference<>() {});
 
         if(expenses.isEmpty() || !expenses.removeIf(e -> e.getId() == id)) {
-            System.out.println("Nothing to delete");
+            System.out.printf("expense with id %d doesn't exist", id);
             return;
         }
 
@@ -69,7 +69,7 @@ public class ExpenseStorage {
         Optional<Expense> expense = expenses.stream().filter(e -> e.getDate().getMonthValue() == month).findAny();
 
         if(expense.isEmpty()){
-            System.out.println("Nothing to show");
+            System.out.printf("expense with month %d doesn't exist", month);
             return;
         }
 

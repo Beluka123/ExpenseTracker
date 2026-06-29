@@ -3,36 +3,33 @@ package org.project;
 import org.project.models.Expense;
 import org.project.utils.Help;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 public class ExpenseTracker {
 
     private final static ExpenseStorage storage = new ExpenseStorage();
 
-    public static void add(String[] args) throws IOException {
+    public static void add(String[] args){
 
-        if(args.length < 6){
-            Help.help("add");
+        if(args.length == 6){
+            if(!args[2].equals("--description") || !args[4].equals("--amount")){
+                Help.help("add");
+                return;
+            }
+
+            if(!args[5].matches("\\d+")){
+                Help.help("add");
+                return;
+            }
+
+            String desc = args[3];
+            int amount = Integer.parseInt(args[5]);
+
+            storage.store(desc, amount);
             return;
         }
 
-        if(Arrays.stream(args).noneMatch(a -> a.equals("--description") || a.equals("--amount"))){
-            Help.help("add");
-            return;
-        }
-
-        if(!args[5].matches("\\d+")){
-            Help.help("add");
-            return;
-        }
-
-        String desc = args[3];
-        int amount = Integer.parseInt(args[5]);
-
-        storage.store(desc, amount);
-
+        Help.help("add");
     }
 
     public static void list(){
@@ -49,22 +46,22 @@ public class ExpenseTracker {
     }
 
     public static void delete(String[] args){
-        if(args.length < 4){
-            Help.help("delete");
+        if(args.length == 4){
+            if(!args[2].equals("--id")){
+                Help.help("delete");
+                return;
+            }
+
+            if(!args[3].matches("\\d+")){
+                Help.help("delete");
+                return;
+            }
+
+            storage.delete(Integer.parseInt(args[3]));
             return;
         }
 
-        if(Arrays.stream(args).noneMatch(a -> a.equals("--id"))){
-            Help.help("delete");
-            return;
-        }
-
-        if(!args[3].matches("\\d+")){
-            Help.help("delete");
-            return;
-        }
-
-        storage.delete(Integer.parseInt(args[3]));
+        Help.help("delete");
     }
 
     public static void summary(String[] args){
