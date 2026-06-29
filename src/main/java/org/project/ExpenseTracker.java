@@ -69,6 +69,30 @@ public class ExpenseTracker {
 
     public static void summary(String[] args){
 
+        if(args.length == 2){
+            storage.summary();
+            return;
+        }
+
+        if(args.length == 4){
+
+            if(!args[2].equals("--month") || !args[3].matches("\\d+")){
+                Help.help("summary");
+                return;
+            }
+
+            int month = Integer.parseInt(args[3]);
+
+            if(month > 12 || month < 1){
+                System.out.println("month should be in range (1, 12)");
+                return;
+            }
+
+            storage.monthSummary(month);
+            return;
+        }
+
+        Help.help("summary");
     }
 
 }

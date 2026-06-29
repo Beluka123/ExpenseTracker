@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class ExpenseStorage {
 
@@ -54,5 +55,24 @@ public class ExpenseStorage {
 
         mapper.writerWithDefaultPrettyPrinter().writeValue(storage, expenses);
         System.out.println("successfully deleted");
+    }
+
+    public void summary(){
+        List<Expense> expenses = mapper.readValue(storage, new TypeReference<>() {});
+
+        System.out.println("Total expenses: $" + expenses.stream().mapToInt(Expense::getAmount).sum());
+    }
+
+    public void monthSummary(int month){
+        List<Expense> expenses = mapper.readValue(storage, new TypeReference<>() {});
+
+        Optional<Expense> expense = expenses.stream().filter(e -> e.getDate().getMonthValue() == month).findAny();
+
+        if(expense.isEmpty()){
+            System.out.println("Nothing to show");
+            return;
+        }
+
+        System.out.printf("Total expenses for %s: $%d\n", expense.get().getDate().getMonth().name(), expense.get().getAmount());
     }
 }
